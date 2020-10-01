@@ -1,63 +1,43 @@
 <template>
   <div>
-    <h4>iOS: {{ countIOS }} 機種</h4>
+    <h4>iOS: {{ iOSLogic.count }} 機種</h4>
     <ul>
-      <li v-for="(elem, index) in iOS" v-bind:key="index">
+      <li v-for="(elem, index) in iOSLogic.terminals" v-bind:key="index">
         {{ elem }}
       </li>
     </ul>
-    <h4>Android: {{ countAndroid }} 機種</h4>
+    <h4>Android: {{ androidLogic.count }} 機種</h4>
     <ul>
-      <li v-for="(elem, index) in android" v-bind:key="index">
+      <li v-for="(elem, index) in androidLogic.terminals" v-bind:key="index">
         {{ elem }}
       </li>
     </ul>
     <h4>合計： {{ countTotal }} 機種</h4>
     <div>
-      <input v-model="newIOS" placeholder="iOS機種">
-      <button @click="addNewIOS">追加</button>
+      <input v-model="iOSLogic.newTerminal" placeholder="iOS機種">
+      <button @click="iOSLogic.addNew">追加</button>
     </div>
     <div>
-      <input v-model="newAndroid" placeholder="Android機種">
-      <button @click="addNewAndroid">追加</button>
+      <input v-model="androidLogic.newTerminal" placeholder="Android機種">
+      <button @click="androidLogic.addNew">追加</button>
     </div>
   </div>
 </template>
 <script>
-import { reactive, computed, toRefs } from 'vue'
+import { computed } from 'vue'
+import PhonesLogic from './PhonesLogic'
 export default {
-  // コンポーネント設定処理
   setup() {
-    // reactiveでデータを記述
-    const state = reactive({
-      iOS: ['iPhone 11'],
-      newIOS: '',
-      android: ['Galaxy S20 5G'],
-      newAndroid: ''
-    })
-    // メソッド
-    function addNewIOS() {
-      state.iOS.push(state.newIOS)
-      state.newIOS = ''
-    }
-    function addNewAndroid() {
-      state.android.push(state.newAndroid)
-      state.newAndroid = ''
-    }
-    // 算出プロパティ
-    const countIOS = computed(function() {
-      return state.iOS.length
-    })
-    const countAndroid = computed(function() {
-      return state.android.length
-    })
+    // PhoneLogicでiOS/Androidの各処理ロジックを生成
+    const iOSLogic = PhonesLogic(['iPhone 11'])
+    const androidLogic = PhonesLogic(['Galaxy S20 5G'])
+    // 総端末数を計算する算出プロパティ
     const countTotal = computed(function() {
-      return state.iOS.length + state.android.length
+      return iOSLogic.count.value + androidLogic.count.value
     })
     // ここまで定義してきた内容を返却
     return {
-      ...toRefs(state), // stateの内容をrefに変換
-      addNewIOS, addNewAndroid, countIOS, countAndroid, countTotal
+      iOSLogic, androidLogic, countTotal
     }
   }
 }
