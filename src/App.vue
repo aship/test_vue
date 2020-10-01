@@ -1,16 +1,14 @@
 <template>
-  <div>
-    <teleport-from></teleport-from>
-  </div>
+    <h3>Fragmentサポート</h3>
+    <ul>
+      <list-elems/>
+    </ul>
 </template>
-
 <script>
-import TeleportFrom from './components/TeleportFrom.vue'
-
+import ListElems from './components/ListElems.vue'
 export default {
-  name: 'App',
   components: {
-    TeleportFrom
+    ListElems
   }
 }
 </script>
