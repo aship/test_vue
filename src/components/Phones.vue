@@ -2,66 +2,60 @@
   <div>
     <h4>iOS: {{ countIOS }} 機種</h4>
     <ul>
-      <li v-for="(elem, index) in state.iOS" v-bind:key="index">
+      <li v-for="(elem, index) in iOS" v-bind:key="index">
         {{ elem }}
       </li>
     </ul>
     <h4>Android: {{ countAndroid }} 機種</h4>
     <ul>
-      <li v-for="(elem, index) in state.android" v-bind:key="index">
+      <li v-for="(elem, index) in android" v-bind:key="index">
         {{ elem }}
       </li>
     </ul>
     <h4>合計： {{ countTotal }} 機種</h4>
     <div>
-      <input v-model="state.newIOS" placeholder="iOS端末">
+      <input v-model="newIOS" placeholder="iOS端末">
       <button @click="addNewIOS">追加</button>
     </div>
     <div>
-      <input v-model="state.newAndroid" placeholder="Android端末">
+      <input v-model="newAndroid" placeholder="Android端末">
       <button @click="addNewAndroid">追加</button>
     </div>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, reactive, computed } from 'vue'
+import { defineComponent, ref, computed } from 'vue'
 export default defineComponent({
   // コンポーネント設定処理
   setup() {
-    // reactiveでデータを記述
-    const state = reactive<{
-      iOS: Array<string>;
-      newIOS: string;
-      android: Array<string>;
-      newAndroid: string;
-      }>({
-      iOS: ['iPhone 11'],
-      newIOS: '',
-      android: ['Galaxy S20 5G'],
-      newAndroid: ''
-    })
+    // refでデータを記述
+    const iOS = ref<Array<string>>(['iPhone 11'])
+    const newIOS = ref<string>('')
+    const android = ref<Array<string>>(['Galaxy S20 5G'])
+    const newAndroid = ref<string>('')
     // メソッド
     function addNewIOS() {
-      state.iOS.push(state.newIOS)
-      state.newIOS = ''
+      iOS.value.push(newIOS.value)
+      newIOS.value = ''
     }
     function addNewAndroid() {
-      state.android.push(state.newAndroid)
-      state.newAndroid = ''
+      android.value.push(newAndroid.value)
+      newAndroid.value = ''
     }
     // 算出プロパティ
     const countIOS = computed(function() {
-      return state.iOS.length
+      return iOS.value.length
     })
     const countAndroid = computed(function() {
-      return state.android.length
+      return android.value.length
     })
     const countTotal = computed(function() {
-      return state.iOS.length + state.android.length
+      return iOS.value.length + android.value.length
     })
     // ここまで定義してきた内容を返却
     return {
-      state, addNewIOS, addNewAndroid, countIOS, countAndroid, countTotal
+      iOS, newIOS, android, newAndroid,
+      addNewIOS, addNewAndroid, countIOS, countAndroid, countTotal
     }
   }
 })
