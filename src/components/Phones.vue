@@ -24,37 +24,39 @@
   </div>
 </template>
 <script>
-import { ref, computed } from 'vue'
+import { reactive, computed, toRefs } from 'vue'
 export default {
   // コンポーネント設定処理
   setup() {
-    // refでデータを記述
-    const iOS = ref(['iPhone 11'])
-    const newIOS = ref('')
-    const android = ref(['Galaxy S20 5G'])
-    const newAndroid = ref('')
+    // reactiveでデータを記述
+    const state = reactive({
+      iOS: ['iPhone 11'],
+      newIOS: '',
+      android: ['Galaxy S20 5G'],
+      newAndroid: ''
+    })
     // メソッド
     function addNewIOS() {
-      iOS.value.push(newIOS.value)
-      newIOS.value = ''
+      state.iOS.push(state.newIOS)
+      state.newIOS = ''
     }
     function addNewAndroid() {
-      android.value.push(newAndroid.value)
-      newAndroid.value = ''
+      state.android.push(state.newAndroid)
+      state.newAndroid = ''
     }
     // 算出プロパティ
     const countIOS = computed(function() {
-      return iOS.value.length
+      return state.iOS.length
     })
     const countAndroid = computed(function() {
-      return android.value.length
+      return state.android.length
     })
     const countTotal = computed(function() {
-      return iOS.value.length + android.value.length
+      return state.iOS.length + state.android.length
     })
     // ここまで定義してきた内容を返却
     return {
-      iOS, newIOS, android, newAndroid,
+      ...toRefs(state), // stateの内容をrefに変換
       addNewIOS, addNewAndroid, countIOS, countAndroid, countTotal
     }
   }
