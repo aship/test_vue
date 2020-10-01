@@ -1,14 +1,14 @@
 <template>
   <div>
-    <phones/>
+    <one-phone name="Galaxy S20 5G" vendor="Samsung" v-bind:weight="163"/>
   </div>
 </template>
 <script>
-import Phones from './components/Phones.vue'
+import OnePhone from './components/OnePhone.vue'
 export default {
   name: 'App',
   components: {
-    Phones
+    OnePhone
   }
 }
 </script>
