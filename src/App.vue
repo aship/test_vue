@@ -1,22 +1,15 @@
 <template>
   <div>
-    <input v-model="inputValue">
-    <div>大文字：{{ uppercase(inputValue) }}</div>
+    <phones/>
   </div>
 </template>
-<script>
-import { ref } from 'vue'
-export default {
-  setup() {
-    const inputValue = ref('')
-    // 大文字に変換するメソッド
-    function uppercase(value) {
-      if (!value) return ''
-      return value.toString().toUpperCase()
-    }
-    return {
-      inputValue, uppercase
-    }
+<script lang="ts">
+import { defineComponent } from 'vue'
+import Phones from './components/Phones.vue'
+export default defineComponent({
+  name: 'App',
+  components: {
+    Phones
   }
-}
+})
 </script>
